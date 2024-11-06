@@ -5,10 +5,11 @@ type OptionType = { label: string; description: string };
 
 function App() {
 
-    // Custom filter function for the `filterOptions` prop
-    const customFilterOptions = (options: OptionType[], inputValue: string): OptionType[] => {
-      return options.filter((option) =>
-        option.label.toLowerCase().includes(inputValue.toLowerCase())
+    // Custom filter function for the `filterOptions` prop:  if you type "sweet" in the input, it should return items where the description or label contains "sweet"
+    const customFilterOptions = (options: { label: string; description: string }[], inputValue: string) => {
+      return options.filter(option =>
+        option.label.toLowerCase().includes(inputValue.toLowerCase()) ||
+        option.description.toLowerCase().includes(inputValue.toLowerCase())
       );
     };
   
