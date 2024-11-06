@@ -1,4 +1,3 @@
-// Import necessary hooks and components at the beginning
 import { useState, useEffect, useRef, forwardRef } from "react";
 import {
   autoUpdate,
@@ -125,13 +124,11 @@ function AutoComplete<T extends OptionType>({
 
   const handleSearch = (value: string) => {
     if (searchType === "sync") {
-      // Synchronous search: Filter immediately
       const results = filterOptions ? filterOptions(options, value) : options.filter((item) =>
         item.label.toLowerCase().includes(value.toLowerCase())
       );
       setFilteredItems(results);
     } else {
-      // Asynchronous search: Debounced filter with a delay
       setLoading(true);
       if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
       debounceTimeout.current = window.setTimeout(() => {
@@ -139,8 +136,8 @@ function AutoComplete<T extends OptionType>({
           item.label.toLowerCase().includes(value.toLowerCase())
         );
         setFilteredItems(results);
-        setLoading(false); // Hide loading state after "async" operation completes
-      }, 500); // 500ms delay to simulate async behavior
+        setLoading(false);
+      }, 500);
     }
   };
 
@@ -156,6 +153,14 @@ function AutoComplete<T extends OptionType>({
     } else {
       setOpen(false);
       setFilteredItems(options);
+    }
+  };
+
+  // Show full list on focus for sync search
+  const handleFocus = () => {
+    if (searchType === "sync") {
+      setFilteredItems(options); // Show all options when focused
+      setOpen(true);
     }
   };
 
@@ -188,12 +193,12 @@ function AutoComplete<T extends OptionType>({
           value: inputValue,
           placeholder,
           disabled,
+          onClick: handleFocus, // Show full list on click for sync search
           "aria-autocomplete": "list",
           onKeyDown(event) {
             if (event.key === "Enter" && activeIndex != null && filteredItems[activeIndex]) {
+              event.preventDefault();
               toggleSelectItem(filteredItems[activeIndex]);
-              setActiveIndex(null);
-              setOpen(false);
             }
           }
         })}
