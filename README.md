@@ -1,2 +1,2 @@
 # BEEP_TECH_SWE_TA
-[![Frontend SWE Technical Assessment](./docs/assessment-preview.jpeg)](./docs/FrontendSWETechnicalAssessment2024.pdf)
+[![Frontend SWE Technical Assessment](./Docs/assessment-preview.jpeg)](./Docs/FrontendSWETechnicalAssessment2024.pdf)
